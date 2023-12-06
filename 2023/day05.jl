@@ -65,3 +65,6 @@ s = g(s, map5)
 s = g(s, map6)
 s = g(s, map7)
 answer2 = minimum(minimum.(s))
+
+@show answer1
+@show answer2

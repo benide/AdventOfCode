@@ -23,5 +23,8 @@ function g(s)
     return first * 10 + last
 end
 
-answer1 = sum(f.(input))
+answer1 = sum(f.(input)) 
 answer2 = sum(g.(input))
+
+@show answer1
+@show answer2

@@ -9,7 +9,7 @@ for i in eachindex(input)
     for m in partnumbers[i]
         cols = intersect(1:length(input[i]), m.offset - 1:m.offset + length(m.match))
         if any(c ∉ ".0123456789" for c in mat[rows, cols])
-            answer1 += parse(Int, m.match)
+            global answer1 += parse(Int, m.match)
         end
         push!(ranges_of_influence[i], (rows, cols))
     end
@@ -29,7 +29,10 @@ for j in axes(mat, 2)
                     end
                 end
             end
-            n == 2 && (answer2 += temp;)
+            n == 2 && (global answer2 += temp;)
         end
     end
 end
+
+@show answer1
+@show answer2

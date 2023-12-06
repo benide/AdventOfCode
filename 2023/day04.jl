@@ -16,3 +16,6 @@ for i in eachindex(input)
     end
 end
 answer2 = sum(num_of_cards)
+
+@show answer1
+@show answer2
