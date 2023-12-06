@@ -1,1 +1,5 @@
 #+title: Advent of Code 2023
+
+To-do:
+- day 5 is very ugly.
+- day 6 part 2 needs to check if the rounded =i= and =j= are off by one. Not checking worked for this input.
