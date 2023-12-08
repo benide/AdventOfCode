@@ -3,3 +3,4 @@
 To-do:
 - day 5 is very ugly.
 - day 6 part 2 needs to check if the rounded =i= and =j= are off by one. Not checking worked for this input.
+- day 8 part 2 solution worked but I'm not sure that it would be right on more general inputs. I think more cycle detection is needed.
