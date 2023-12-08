@@ -7,8 +7,8 @@ d = Dict(m[1].match => (m[2].match, m[3].match) for m in m)
 n = 0
 current = "AAA"
 while current != "ZZZ"
-    n += 1
-    current = d[current][LR[mod1(n, length(LR))]]
+    global n += 1
+    global current = d[current][LR[mod1(n, length(LR))]]
 end
 answer1 = n
 
@@ -16,7 +16,7 @@ n = 0
 currents = [k for k in keys(d) if k[3] == 'A']
 timetoz = zeros(Int, length(currents))
 while any(iszero, timetoz)
-    n += 1
+    global n += 1
     lr = LR[mod1(n, length(LR))]
     for i in eachindex(currents)
         currents[i] = d[currents[i]][lr]
