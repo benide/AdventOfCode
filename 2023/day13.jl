@@ -25,7 +25,7 @@ for d in data
         end
     end
     if r > 0
-        answer1 += 100r
+        global answer1 += 100r
     else
         for j in axes(d, 2)
             if j != 1
@@ -36,7 +36,7 @@ for d in data
                 end
             end
         end
-        answer1 += r
+        global answer1 += r
     end
 end
 
@@ -53,7 +53,7 @@ for d in data
         end
     end
     if r > 0
-        answer2 += 100r
+        global answer2 += 100r
     else
         for j in axes(d, 2)
             if j != 1
@@ -64,7 +64,7 @@ for d in data
                 end
             end
         end
-        answer2 += r
+        global answer2 += r
     end
 end
 
