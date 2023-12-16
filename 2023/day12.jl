@@ -1,58 +1,42 @@
 input = readlines(joinpath(@__DIR__, "data/input12"))
 
-function bigline(line)
+function parseline(line, num_copies)
     a, b = split(line)
-    return string(a, "?", a, "?", a, "?", a, "?", a, " ", b, ",", b, ",", b, ",", b, ",", b)
-end
-biginput = [bigline(line) for line in input]
-
-function check(line)
-    length.(getproperty.(collect(eachmatch(r"#++", line)), :match)) == parse.(Int, split(split(line, ' ')[2], ','))
+    return join(fill(a, num_copies), '?'), repeat(parse.(Int, split(b, ',')), num_copies)
 end
 
-include("GrayCode.jl") # old code, repurposed
-function f(line)
-    qs = count(isequal('?'), line)
-    indices = findall(isequal('?'), line)
-    hs = count(isequal('#'), line)
-    nums = parse.(Int, split(split(line, ' ')[2], ','))
-    total = sum(nums)
-    strs = filter(isempty, split(split(line)[1], '.'))
+data1 = parseline.(input, 1)
+data2 = parseline.(input, 5)
 
-    n = 0
-    str = [c for c in line]
-    for gray in GrayCode(qs, total - hs, mutate = true)
-        for (i, g) in zip(indices, gray)
-            str[i] = iszero(g) ? '.' : '#'
+const cache = Dict{Tuple{Vector{String}, Vector{Int}}, Int}()
+
+function f(line::Tuple{String, Vector{Int}})
+    blocks = string.(getproperty.(collect(eachmatch(r"[#?]++", line[1])), :match))
+    f(blocks, line[2])
+end
+
+function f(blocks::Vector{String}, nums::Vector{Int})
+    get!(cache, (blocks, nums)) do
+        if isempty(nums)
+            any('#' in b for b in blocks) ? 0 : 1
+        elseif sum(nums) > sum(length.(blocks))
+            0
+        elseif nums[1] > length(blocks[1])
+            '#' in blocks[1] ? 0 : f(blocks[2:end], nums)
+        elseif '?' in blocks[1]
+            b = blocks[1]
+            i = findfirst(==('?'), b)
+            test1 = filter!(!isempty, [b[1:i-1]; b[i+1:end]; blocks[2:end]])
+            test2 = filter!(!isempty, [b[1:i-1] * "#" * b[i+1:end]; blocks[2:end]])
+            f(test1, nums) + f(test2, nums)
+        else
+            length(blocks[1]) == nums[1] ? f(blocks[2:end], nums[2:end]) : 0
         end
-        check(string(str...)) && (n += 1;)
     end
-    print(".")
-    return n
 end
 
-answer1 = sum(f.(input))
-# answer2 = sum(f.(biginput)) # there is no way this would ever finish
+answer1 = sum(f.(data1))
+answer2 = sum(f.(data2))
 
-# no idea what I'm doing below here...
-
-function g(line)
-    a, b = split(line)
-    c = string.(getproperty.(collect(eachmatch(r"[#?]++", line)), :match))
-    d = parse.(Int, split(b, ','))
-    return c, d
-end
-
-function f2(line)
-    strs, nums = g(line)
-    extra = length(nums) - length(strs)
-    lens = length.(strs)
-    n = 0
-    return findfirst(sum(nums[1:i]) + i - 1 > length(strs[1]) for i in eachindex(nums)) - 1
-    # for s in strs
-
-    # end
-    # return n
-end
-
-asnwer2 = sum(f2.(biginput))
+@show answer1
+@show answer2
