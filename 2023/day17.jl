@@ -4,9 +4,6 @@ data = parse.(Int, stack(input, dims = 1))
 using Pkg; Pkg.activate(joinpath(@__DIR__, ".."))
 using Graphs, SimpleWeightedGraphs
 
-min_step = 1
-max_step = 3
-
 function heatloss(data::Matrix{Int}, min_step::Int, max_step::Int)
     G = SimpleWeightedDiGraph(Int, Int)
     n = length(data)
