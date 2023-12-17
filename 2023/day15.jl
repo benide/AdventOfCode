@@ -1,5 +1,5 @@
 input = readlines(joinpath(@__DIR__, "data/input15"))[1]
-data = String.(split(input, ","))
+data = split(input, ",")
 
 function h(s::AbstractString)
     v = 0

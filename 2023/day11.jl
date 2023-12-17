@@ -1,5 +1,5 @@
 input = readlines(joinpath(@__DIR__, "data/input11"))
-data = vcat([reshape([r for r in row], 1, length(input[1])) for row in input]...)
+data = stack(input, dims = 1)
 indices = Tuple.(findall(isequal('#'), data))
 rows = Int[]
 cols = Int[]
