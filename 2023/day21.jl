@@ -61,12 +61,15 @@ end
 @assert all(isone, plotmap[:, start[2]])
 @assert size(plotmap, 1) == size(plotmap, 2)
 
-nteps = 26501365 # number of steps we need to take
+# it might also depend on S being the center
+@assert 2start[1]-1 == 2start[2]-1 == size(plotmap, 1)
+
+nsteps = 26501365 # number of steps we need to take
 
 # the number of plots visited increases quadratically
 h(x) = g(3, mod(nsteps, size(plotmap, 1)) + x * size(plotmap, 1))
 a, b, c = [0 0 1; 1 1 1; 4 2 1] \ h.(0:2) .|> Int
-x = div(n - mod(n, size(plotmap, 1)), size(plotmap, 1))
+x = div(nsteps, size(plotmap, 1))
 answer2 = a * x^2 + b * x + c
 
 @show answer1
